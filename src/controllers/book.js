@@ -15,15 +15,19 @@ module.exports = {
 
     },
     searchBook: (req, res) => {
-        const title = req.params.title
-        modelBook.searchDataBook(title)
+        const title = req.body.title || "a"
+        const cols = req.body.colom || "Title"
+        const a = req.body.colom || "Title"
+        console.log('this :', cols, ' this title :', title)
+        modelBook.searchDataBook(title, cols, a)
+        // console.log('this :', cols, ' this title :', title)
             .then(result => res.json(result))
             .catch(err => console.log(err))
 
     },
     sortBook: (req, res) => {
         const col = req.params.col || req.body.col
-        console.log('params : ', col)
+        // console.log('params : ', col)
         modelBook.sortDataBook(col)
             .then(result => res.json(result))
             .catch(err => console.log(err))

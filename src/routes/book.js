@@ -14,7 +14,9 @@ Route
     // get specific data with id book
     .get('/:id', BookConttroller.getDetailData)
     // search by title book 
-    .get('/s/:title', BookConttroller.searchBook)
+    // .get('/s/:title', BookConttroller.searchBook)
+    .get('/special/s', BookConttroller.searchBook)
+    .post('/special', BookConttroller.searchBook)
     // update data book
     .patch('/:id', BookConttroller.updateData)
     // delete data book

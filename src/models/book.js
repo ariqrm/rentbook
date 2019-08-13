@@ -64,9 +64,10 @@ module.exports = {
                 })
         })
     },
-    searchDataBook: (title) => {
+    searchDataBook: (title, cols, a) => {
         return new Promise((resolve, reject) => {
-            conn.query(`SELECT Title, Description FROM Book WHERE Title = "${title}" `, (err, result) => {
+            // console.log('this :',[cols],' this title :', {title})
+            conn.query(`SELECT Title, Description FROM Book WHERE ${cols} LIKE "%${title}%" `, (err, result) => {
                 if (!err) {
                     resolve(result)
                 } else {
