@@ -4,7 +4,7 @@ module.exports = {
     borrowBook: (data, id) => {
         return new Promise((resolve, reject) => {
             conn.query('SELECT id_status FROM `Book` WHERE ?', [id], (err, result) => {
-                console.log('result 1= ', result[0].id_status)
+                // console.log('result 1= ', result[0].id_status)
                 let error = {error :'buku sudah di pinjam'}
                 if (!err && result[0].id_status === 2) {
                     // console.log('result 2= ', result)
@@ -26,7 +26,7 @@ module.exports = {
     returnBook: (data, id) => {
         return new Promise((resolve, reject) => {
             conn.query('SELECT id_status FROM `Book` WHERE ?', [id], (err, result) => {
-                console.log('result 1= ', result[0].id_status)
+                // console.log('result 1= ', result[0].id_status)
                 let error = { error: 'buku sudah di pinjam' }
                 if (!err && result[0].id_status === 1) {
                     // console.log('result 2= ', result)

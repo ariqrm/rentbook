@@ -77,7 +77,11 @@ module.exports = {
     },
     sortDataBook: (col) => {
         return new Promise((resolve, reject) => {
-            conn.query(`SELECT Title, Description FROM Book ORDER BY ? `, col, (err, result) => {
+            conn.query(`SELECT B.Title AS title, B.Description AS description, \
+            B.Image AS image, B.DateReleased AS date_released, \
+            G.NameOfGenre AS genre, S.Status AS status \
+            FROM Book AS B JOIN Genres AS G ON B.id_genre=G.id \
+            JOIN Status AS S ON B.id_status=S.id ORDER BY B.${col} `,  (err, result) => {
                 if (!err) {
                     resolve(result)
                 } else {

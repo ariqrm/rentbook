@@ -22,7 +22,8 @@ module.exports = {
 
     },
     sortBook: (req, res) => {
-        const col = req.params.col
+        const col = req.params.col || req.body.col
+        console.log('params : ', col)
         modelBook.sortDataBook(col)
             .then(result => res.json(result))
             .catch(err => console.log(err))
@@ -52,15 +53,7 @@ module.exports = {
             .catch(err => console.log(err))
     },
     insertData: (req, res) => {
-        const data = {
-            Title: req.body.title,
-            Description: req.body.description,
-            Image: req.body.image,
-            DateReleased: req.body.dateReleased,
-            id_genre: req.body.genre,
-            id_status: req.body.status,
-            update_at: new Date()
-        }
+        const data = req.body
         modelBook.insertBook(data)
             .then(result => res.json(result))
             .catch(err => console.log(err))

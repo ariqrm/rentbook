@@ -44,5 +44,16 @@ module.exports = {
                 }
             })
         })
+    },
+    getDetailData: (id) => {
+        return new Promise((resolve, reject) => {
+            conn.query('SELECT * FROM `Genres` WHERE id = ? ', [id], (err, result) => {
+                if (!err) {
+                    resolve(result)
+                } else {
+                    reject(err)
+                }
+            })
+        })
     }
 }

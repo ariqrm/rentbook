@@ -7,6 +7,13 @@ module.exports = {
             .catch(err => console.log(err))
 
     },
+    getDataDetail: (req, res) => {
+        const id = req.params.id
+        modelGenre.getDetailData(id)
+            .then(result => res.json(result))
+            .catch(err => console.log(err))
+
+    },
     deleteData: (req, res) =>{
         const id = req.params.id
         modelGenre.deleteGenre(id)
@@ -15,7 +22,7 @@ module.exports = {
     },
     updateData: (req, res) => {
         const data = {
-            NameOfGenre: req.body.NameGenre
+            NameOfGenre: req.body.NameOfGenre
         }
         const id = {
             id: req.params.id
@@ -26,7 +33,7 @@ module.exports = {
     },
     insertData: (req, res) => {
         const data = {
-            NameOfGenre: req.body.NameGenre
+            NameOfGenre: req.body.NameOfGenre
         }
         modelGenre.insertGenre(data)
             .then(result => res.json(result))
