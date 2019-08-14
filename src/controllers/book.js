@@ -2,7 +2,13 @@ const modelBook = require('../models/book')
 
 module.exports = {
     getData: (req, res) => {
-        modelBook.getData()
+        const search = req.query.search || null
+        const sort = req.query.sort || null
+        const available = req.query.available || null
+        const limit = req.query.limit || 5
+        const page = req.query.page || 1
+        const offset = (page - 1) * limit
+        modelBook.getData(search, sort, available, limit, offset)
             .then(result => res.json(result))
             .catch(err => console.log(err))
 
@@ -14,12 +20,12 @@ module.exports = {
             .catch(err => console.log(err))
 
     },
-    searchBook: (req, res) => {
+    filterBook: (req, res) => {
         const title = req.body.title || "a"
         const cols = req.body.colom || "Title"
         const a = req.body.colom || "Title"
         console.log('this :', cols, ' this title :', title)
-        modelBook.searchDataBook(title, cols, a)
+        modelBook.filterDataBook(title, cols, a)
         // console.log('this :', cols, ' this title :', title)
             .then(result => res.json(result))
             .catch(err => console.log(err))
@@ -61,5 +67,15 @@ module.exports = {
         modelBook.insertBook(data)
             .then(result => res.json(result))
             .catch(err => console.log(err))
+    },
+    pagiNation: (req, res) => {
+        const limit = req.query.limit || 5
+        const page = req.query.offset || 1
+        const offset = (page-1)*limit
+        // console.log('this limit : ', limit, 'this offset : ', offset)
+        modelBook.pagination(limit, offset)
+            .then(result => res.json(result))
+            .catch(err => console.log(err))
+
     }
 }

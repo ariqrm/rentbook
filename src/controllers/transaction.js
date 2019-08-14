@@ -10,7 +10,8 @@ module.exports = {
     },
     borrow: (req, res) => {
         const data = {
-            id_book: req.body.id_book
+            id_book: req.body.id_book,
+            id_status: 1
         }
         const dataBook = {
             id_status: 1
@@ -30,7 +31,8 @@ module.exports = {
     },
     return: (req, res) => {
         const data = {
-            id_book: req.body.id_book
+            id_book: req.body.id_book,
+            id_status: 2
         }
         const dataBook = {
             id_status: 2

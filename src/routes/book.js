@@ -13,10 +13,12 @@ Route
     .post('/sort/', BookConttroller.sortBook)
     // get specific data with id book
     .get('/:id', BookConttroller.getDetailData)
-    // search by title book 
+    // pagination book 
+    .get('/page/limit', BookConttroller.pagiNation)
+    // filter by title book 
     // .get('/s/:title', BookConttroller.searchBook)
-    .get('/special/s', BookConttroller.searchBook)
-    .post('/special', BookConttroller.searchBook)
+    .get('/filter/s', BookConttroller.filterBook)
+    .post('/filter', BookConttroller.filterBook)
     // update data book
     .patch('/:id', BookConttroller.updateData)
     // delete data book

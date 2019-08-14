@@ -1,5 +1,9 @@
 const conn = require('../configs/db')
-
+let sql = 'SELECT B.Title AS title, B.Description AS description, \
+            B.Image AS image, B.DateReleased AS date_released, \
+            G.NameOfGenre AS genre, S.Status AS status \
+            FROM Book AS B JOIN Genres AS G ON B.id_genre=G.id \
+            JOIN Status AS S ON B.id_status=S.id'
 module.exports = {
     insertBook: (data) => {
         return new Promise((resolve, reject) => {
@@ -34,13 +38,18 @@ module.exports = {
             })
         })
     },
-    getData: () => {
+    getData: (search, sort, available, limit, offset) => {
         return new Promise((resolve, reject) => {
-            conn.query('SELECT `Book`.`Title` AS `title`, \
-            `Book`.`Description` AS `description`, `Book`.`Image` AS `image`, \
-            `Book`.`DateReleased` AS `date_released`, `Genres`.`NameOfGenre` AS `genre`, \
-            `Status`.`Status` AS `status` FROM `Book` JOIN `Genres` ON `Book`.`id_genre`=`Genres`.`id` \
-            JOIN `Status` ON `Book`.`id_status`=`Status`.`id`', (err, result) => {
+            let query = ''
+            if(search != null || sort != null ||available != null){
+                query += ` WHERE`
+                query += available ? ` S.Status = '${available}'`:``
+                query += search && available ? ` AND`:``
+                query += search ? ` B.Title LIKE "%${search}%"`:``
+                query += sort ? ` ORDER BY B.${sort}`:``
+            }
+            conn.query(`${sql+query} LIMIT ${limit} OFFSET ${offset}`, (err, result) => {
+                console.log("is",query)
                     if (!err) {
                         resolve(result)
                     } else {
@@ -51,11 +60,7 @@ module.exports = {
     },
     getDetailData: (id) => {
         return new Promise((resolve, reject) => {
-            conn.query('SELECT `Book`.`Title` AS `title`, \
-            `Book`.`Description` AS `description`, `Book`.`Image` AS `image`, \
-            `Book`.`DateReleased` AS `date_released`, `Genres`.`NameOfGenre` AS `genre`, \
-            `Status`.`Status` AS `status` FROM `Book` JOIN `Genres` ON `Book`.`id_genre`=`Genres`.`id` \
-            JOIN `Status` ON `Book`.`id_status`=`Status`.`id` WHERE `Book`.id = ? ', [id], (err, result) => {
+            conn.query(`${sql} WHERE B.id = ? `, [id], (err, result) => {
                     if (!err) {
                         resolve(result)
                     } else {
@@ -64,10 +69,10 @@ module.exports = {
                 })
         })
     },
-    searchDataBook: (title, cols, a) => {
+    filterDataBook: (title, cols, a) => {
         return new Promise((resolve, reject) => {
             // console.log('this :',[cols],' this title :', {title})
-            conn.query(`SELECT Title, Description FROM Book WHERE ${cols} LIKE "%${title}%" `, (err, result) => {
+            conn.query(`${sql} WHERE ${cols} LIKE "%${title}%" `, (err, result) => {
                 if (!err) {
                     resolve(result)
                 } else {
@@ -78,17 +83,25 @@ module.exports = {
     },
     sortDataBook: (col) => {
         return new Promise((resolve, reject) => {
-            conn.query(`SELECT B.Title AS title, B.Description AS description, \
-            B.Image AS image, B.DateReleased AS date_released, \
-            G.NameOfGenre AS genre, S.Status AS status \
-            FROM Book AS B JOIN Genres AS G ON B.id_genre=G.id \
-            JOIN Status AS S ON B.id_status=S.id ORDER BY B.${col} `,  (err, result) => {
-                if (!err) {
-                    resolve(result)
-                } else {
-                    reject(err)
-                }
-            })
+            // console.log('this :',sql)
+            conn.query(`${sql} ORDER BY B.${col} `, (err, result) => {
+                    if (!err) {
+                        resolve(result)
+                    } else {
+                        reject(err)
+                    }
+                })
+        })
+    },
+    pagination: (limit, offset) => {
+        return new Promise((resolve, reject) => {
+            conn.query(`${sql} LIMIT ${limit} OFFSET ${offset} `, (err, result) => {
+                    if (!err) {
+                        resolve(result)
+                    } else {
+                        reject(err)
+                    }
+                })
         })
     }
 }
