@@ -1,5 +1,5 @@
 const conn = require('../configs/db')
-let sql = 'SELECT B.Title AS title, B.Description AS description, \
+const sql = 'SELECT B.Title AS title, B.Description AS description, \
             B.Image AS image, B.DateReleased AS date_released, \
             G.NameOfGenre AS genre, S.Status AS status \
             FROM Book AS B JOIN Genres AS G ON B.id_genre=G.id \
