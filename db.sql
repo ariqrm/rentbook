@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 14, 2019 at 08:58 PM
+-- Generation Time: Aug 14, 2019 at 09:21 PM
 -- Server version: 5.7.27-0ubuntu0.18.04.1
 -- PHP Version: 7.2.19-0ubuntu0.18.04.1
 
@@ -43,6 +43,13 @@ CREATE TABLE `Book` (
 --
 
 INSERT INTO `Book` (`id`, `Title`, `Description`, `Image`, `DateReleased`, `id_genre`, `id_status`, `create_at`, `update_at`) VALUES
+(1, 'The Promised Neverland', 'Yakusoku no Neverland, yang diterbitkan di Indonesia dengan judul The Promised Neverland, adalah sebuah seri manga Jepang yang ditulis oleh Kaiu Shirai dan diilustrasikan oleh Posuka Demizu. 1', 'https://upload.wikimedia.org/wikipedia/id/4/44/The_Promised_Neverland%2C_Volume_1.jpg', '2016-08-01', 3, 2, '2019-08-12 16:37:51', '2019-08-14 09:28:08'),
+(2, 'The Promised Neverland 2', 'Yakusoku no Neverland, yang diterbitkan di Indonesia dengan judul The Promised Neverland, adalah sebuah seri manga Jepang yang ditulis oleh Kaiu Shirai dan diilustrasikan oleh Posuka Demizu. 2', 'https://upload.wikimedia.org/wikipedia/id/4/44/The_Promised_Neverland%2C_Volume_1.jpg', '2017-08-07', 3, 2, '2019-08-12 09:25:17', '2019-08-14 09:27:07'),
+(3, 'The Promised Neverland 3', 'Yakusoku no Neverland, yang diterbitkan di Indonesia dengan judul The Promised Neverland, adalah sebuah seri manga Jepang yang ditulis oleh Kaiu Shirai dan diilustrasikan oleh Posuka Demizu. 3', 'https://upload.wikimedia.org/wikipedia/id/4/44/The_Promised_Neverland%2C_Volume_1.jpg', '2017-12-01', 3, 2, '2019-08-13 17:08:28', '2019-08-13 17:08:28'),
+(4, 'The Promised Neverland X', 'Yakusoku no Neverland, yang diterbitkan di Indonesia dengan judul The Promised Neverland, adalah sebuah seri manga Jepang yang ditulis oleh Kaiu Shirai dan diilustrasikan oleh Posuka Demizu. 4', 'https://upload.wikimedia.org/wikipedia/id/4/44/The_Promised_Neverland%2C_Volume_1.jpg', '2017-12-01', 3, 2, '2019-08-13 17:26:10', '2019-08-14 13:11:09'),
+(5, 'The Promised Neverland 4', 'Yakusoku no Neverland, yang diterbitkan di Indonesia dengan judul The Promised Neverland, adalah sebuah seri manga Jepang yang ditulis oleh Kaiu Shirai dan diilustrasikan oleh Posuka Demizu. ', 'https://upload.wikimedia.org/wikipedia/id/4/44/The_Promised_Neverland%2C_Volume_1.jpg', '2018-02-01', 3, 2, '2019-08-14 09:29:59', '2019-08-14 09:29:59'),
+(6, 'The Promised Neverland 5', 'Yakusoku no Neverland, yang diterbitkan di Indonesia dengan judul The Promised Neverland, adalah sebuah seri manga Jepang yang ditulis oleh Kaiu Shirai dan diilustrasikan oleh Posuka Demizu. ', 'https://upload.wikimedia.org/wikipedia/id/4/44/The_Promised_Neverland%2C_Volume_1.jpg', '2018-06-01', 3, 2, '2019-08-14 09:30:25', '2019-08-14 09:30:25'),
+(7, 'The Promised Neverland 6', 'Yakusoku no Neverland, yang diterbitkan di Indonesia dengan judul The Promised Neverland, adalah sebuah seri manga Jepang yang ditulis oleh Kaiu Shirai dan diilustrasikan oleh Posuka Demizu. ', 'https://upload.wikimedia.org/wikipedia/id/4/44/The_Promised_Neverland%2C_Volume_1.jpg', '2018-12-01', 3, 1, '2019-08-14 09:30:37', '2019-08-14 13:20:45');
 
 -- --------------------------------------------------------
 
@@ -64,9 +71,9 @@ INSERT INTO `Genres` (`id`, `NameOfGenre`) VALUES
 (2, 'action'),
 (3, 'mistery'),
 (4, 'horror'),
-(9, 'music'),
+(9, 'rok'),
 (10, 'manga'),
-(11, 'religi');
+(11, 'manga');
 
 -- --------------------------------------------------------
 
@@ -109,6 +116,22 @@ INSERT INTO `Transaction` (`id`, `Date`, `id_book`, `id_status`) VALUES
 (2, '2019-08-13 17:21:05', 4, 1),
 (3, '2019-08-13 17:26:10', 4, 2);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Users`
+--
+
+CREATE TABLE `Users` (
+  `id` int(11) NOT NULL,
+  `Email` varchar(25) NOT NULL,
+  `Password` varchar(40) NOT NULL,
+  `First_name` varchar(25) NOT NULL,
+  `Last_name` varchar(25) NOT NULL,
+  `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 --
 -- Indexes for dumped tables
 --
@@ -142,6 +165,13 @@ ALTER TABLE `Transaction`
   ADD KEY `id_book` (`id_book`);
 
 --
+-- Indexes for table `Users`
+--
+ALTER TABLE `Users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `Email` (`Email`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -165,6 +195,11 @@ ALTER TABLE `Status`
 --
 ALTER TABLE `Transaction`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `Users`
+--
+ALTER TABLE `Users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --
