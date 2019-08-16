@@ -1,9 +1,9 @@
 const conn = require('../configs/db')
 
 module.exports = {
-  insertGenre: (data) => {
+  insertUser: (data) => {
     return new Promise((resolve, reject) => {
-      conn.query('INSERT Genres SET ?', data, (err, result) => {
+      conn.query('INSERT Users SET ?', data, (err, result) => {
         if (!err) {
           resolve(result)
         } else {
@@ -12,20 +12,21 @@ module.exports = {
       })
     })
   },
-  updateGenre: (data, id) => {
+  signinUser: (email) => {
     return new Promise((resolve, reject) => {
-      conn.query('UPDATE Genres SET ? WHERE ?', [data, id], (err, result) => {
+      const error = { Fail: 'email or password false' }
+      conn.query(`SELECT * from Users WHERE Email = '${email}'`, (err, result) => {
         if (!err) {
           resolve(result)
         } else {
-          reject(err)
+          reject(error)
         }
       })
     })
   },
-  deleteGenre: (id) => {
+  registerUser: (data) => {
     return new Promise((resolve, reject) => {
-      conn.query('DELETE FROM Genres WHERE id = ?', [id], (err, result) => {
+      conn.query('INSERT Users SET ?', data, (err, result) => {
         if (!err) {
           resolve(result)
         } else {
@@ -36,7 +37,7 @@ module.exports = {
   },
   getData: () => {
     return new Promise((resolve, reject) => {
-      conn.query('SELECT * FROM `Genres` ', (err, result) => {
+      conn.query('SELECT * FROM `Users` ', (err, result) => {
         if (!err) {
           resolve(result)
         } else {
@@ -45,9 +46,9 @@ module.exports = {
       })
     })
   },
-  getDetailData: (id) => {
+  checkData: (email) => {
     return new Promise((resolve, reject) => {
-      conn.query('SELECT * FROM `Genres` WHERE id = ? ', [id], (err, result) => {
+      conn.query(`SELECT * FROM Users WHERE email = '${email}'`, (err, result) => {
         if (!err) {
           resolve(result)
         } else {
