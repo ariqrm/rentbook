@@ -14,11 +14,8 @@ module.exports = {
       })
     }
   },
-  checkid: (req, res, next) => {
-    if (res.status(500)) {
-      return res.json({ error: 'fail 500' })
-    } else {
-      return res.json(req.userData.dataUser.id)
-    }
+  checkid: (req, res) => {
+    const data = req.userData.dataUser.Email
+    return res.json({ Email: data })
   }
 }

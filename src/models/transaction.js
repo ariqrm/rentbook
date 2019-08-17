@@ -4,10 +4,8 @@ module.exports = {
   borrowBook: (data, id) => {
     return new Promise((resolve, reject) => {
       conn.query('SELECT id_status FROM `Book` WHERE ?', [id], (err, result) => {
-        // console.log('result 1= ', result[0].id_status)
-        const error = { error: 'buku sudah di pinjam' }
+        const error = { error: 'book have been borrowed' }
         if (!err && result[0].id_status === 2) {
-          // console.log('result 2= ', result)
           conn.query('INSERT Transaction SET ?', data, (err, result) => {
             if (!err) {
               resolve(result)
@@ -16,9 +14,7 @@ module.exports = {
             }
           })
         } else {
-          // console.log('result 3 = ',error)
           reject(error)
-          // reject(err)
         }
       })
     })
@@ -26,10 +22,8 @@ module.exports = {
   returnBook: (data, id) => {
     return new Promise((resolve, reject) => {
       conn.query('SELECT id_status FROM `Book` WHERE ?', [id], (err, result) => {
-        // console.log('result 1= ', result[0].id_status)
-        const error = { error: 'buku sudah ada' }
+        const error = { error: 'book has already returned' }
         if (!err && result[0].id_status === 1) {
-          // console.log('result 2= ', result)
           conn.query('INSERT Transaction SET ?', data, (err, result) => {
             if (!err) {
               resolve(result)
@@ -38,9 +32,7 @@ module.exports = {
             }
           })
         } else {
-          // console.log('result 3 = ',error)
           reject(error)
-          // reject(err)
         }
       })
     })

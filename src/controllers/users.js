@@ -6,7 +6,7 @@ module.exports = {
   getData: (req, res) => {
     modelUser.getData()
       .then(result => res.json(result))
-      .catch(err => console.log(err))
+      .catch(err => res.json({ error: err.code }))
   },
   register: (req, res) => {
     const secret = helper.generateSecret(18)
@@ -20,7 +20,7 @@ module.exports = {
     }
     modelUser.registerUser(data)
       .then(result => res.json(result))
-      .catch(err => res.json({ error: `Data sudah ada${err}` }))
+      .catch(err => res.json({ msg: `Data have existed`, error: err.code }))
   },
   signin: (req, res) => {
     const email = req.body.email
@@ -33,17 +33,16 @@ module.exports = {
         if (usePassword.password === dataUser.Password) {
           delete dataUser.secret_key
           delete dataUser.Password
-          const token = jwt.sign({ idUser: dataUser.id }, process.env.SECRET_KEY)
-          return res.json({ token })
-          // return res.json({askas: dataUser})
+          const token = jwt.sign({ dataUser }, process.env.SECRET_KEY)
+          return res.json({ token: `Bearer ${token}` })
         } else {
           return res.json({ error: 'data not match' })
         }
       })
-      .catch((err) => res.json({ error: `data not match${err}` }))
+      .catch((err) => res.json({ msg: `data not match`, error: err.code }))
   },
   testJwt: (req, res) => {
     const token = req.header
-    return res.json({ a: 'token', b: token })
+    return res.json({ b: token })
   }
 }

@@ -37,7 +37,7 @@ module.exports = {
   },
   getData: () => {
     return new Promise((resolve, reject) => {
-      conn.query('SELECT * FROM `Users` ', (err, result) => {
+      conn.query('SELECT Email, First_name, Last_name FROM `Users` ', (err, result) => {
         if (!err) {
           resolve(result)
         } else {

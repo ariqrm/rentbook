@@ -69,7 +69,7 @@ module.exports = {
       })
     })
   },
-  filterDataBook: (title, cols, a) => {
+  filterDataBook: (title, cols) => {
     return new Promise((resolve, reject) => {
       // console.log('this :',[cols],' this title :', {title})
       conn.query(`${sql} WHERE ${cols} LIKE "%${title}%" `, (err, result) => {

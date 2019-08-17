@@ -5,7 +5,7 @@ module.exports = {
   getTransactionData: (req, res) => {
     modelTransaction.getData()
       .then(result => res.json(result))
-      .catch(err => console.log(err))
+      .catch(err => res.json({ error: err.code }))
   },
   borrow: (req, res) => {
     const data = {
@@ -20,14 +20,12 @@ module.exports = {
       id: req.body.id_book
     }
     modelTransaction.borrowBook(data, id)
-      .then(result => modelBook.updateBook(dataBook, id)
-        .then(result =>
-        // console.log('result 1 = ',result)
-          res.json({ success: 'berhasil meminjam' }))
+      .then(() => modelBook.updateBook(dataBook, id)
+        .then(() =>
+          res.json({ success: 'succes borrow' }))
         .catch(error => res.json(error))
       )
       .catch(error => res.json(error))
-    // .catch(err => console.log(err))
   },
   return: (req, res) => {
     const data = {
@@ -42,10 +40,9 @@ module.exports = {
       id: req.body.id_book
     }
     modelTransaction.returnBook(data, id)
-      .then(result => modelBook.updateBook(dataBook, id)
-        .then(result =>
-        // console.log('result 1 = ', result)
-          res.json({ success: 'berhasil' }))
+      .then(() => modelBook.updateBook(dataBook, id)
+        .then(() =>
+          res.json({ success: 'succes return' }))
         .catch(error => res.json(error))
       )
       .catch(error => res.json(error))

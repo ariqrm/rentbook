@@ -12,36 +12,38 @@ module.exports = {
     const offset = (page - 1) * limit
     modelBook.getData(search, sort, available, limit, offset)
       .then(result => res.json(result))
-      .catch(err => console.log(err))
+      .catch(err => res.json({ msg: 'something wrong', error: err.code }))
   },
   getDetailData: (req, res) => {
     const id = req.params.id
     modelBook.getDetailData(id)
       .then(result => res.json(result))
-      .catch(err => console.log(err))
+      .catch(err => res.json({ msg: 'something wrong', error: err.code }))
   },
   filterBook: (req, res) => {
     const title = req.body.title || 'a'
     const cols = req.body.colom || 'Title'
-    const a = req.body.colom || 'Title'
-    console.log('this :', cols, ' this title :', title)
-    modelBook.filterDataBook(title, cols, a)
-    // console.log('this :', cols, ' this title :', title)
+    modelBook.filterDataBook(title, cols)
       .then(result => res.json(result))
-      .catch(err => console.log(err))
+      .catch(err => res.json({ msg: 'something wrong', error: err.code }))
   },
   sortBook: (req, res) => {
     const col = req.params.col || req.body.col
-    // console.log('params : ', col)
     modelBook.sortDataBook(col)
       .then(result => res.json(result))
-      .catch(err => console.log(err))
+      .catch(err => res.json({ msg: 'something wrong', error: err.code }))
   },
   deleteData: (req, res) => {
     const id = req.params.id
     modelBook.deleteBook(id)
-      .then(result => res.json(result))
-      .catch(err => console.log(err))
+      .then(result => {
+        if (result.affectedRows === 1) {
+          res.json({ succes: 'book deleted' })
+        } else {
+          res.json({ failed: 'book can not deleted' })
+        }
+      })
+      .catch(err => res.json({ msg: 'book can not delete', error: err.code }))
   },
   updateData: (req, res) => {
     const data = {
@@ -57,22 +59,33 @@ module.exports = {
       id: req.params.id
     }
     modelBook.updateBook(data, id)
-      .then(result => res.json(result))
-      .catch(err => console.log(err))
+      .then(result => {
+        if (result.affectedRows === 1) {
+          res.json({ succes: 'book data updated' })
+        } else {
+          res.json({ msg: 'something wrong' })
+        }
+      })
+      .catch(err => res.json({ msg: 'something wrong', error: err.code }))
   },
   insertData: (req, res) => {
     const data = req.body
     modelBook.insertBook(data)
-      .then(result => res.json(result))
-      .catch(err => console.log(err))
+      .then(result => {
+        if (result.affectedRows === 1) {
+          res.json({ succes: 'book added' })
+        } else {
+          res.json({ failed: 'book can not added' })
+        }
+      })
+      .catch(err => res.json({ msg: 'something wrong', error: err.code }))
   },
   pagiNation: (req, res) => {
     const limit = req.query.limit || 5
     const page = req.query.offset || 1
     const offset = (page - 1) * limit
-    // console.log('this limit : ', limit, 'this offset : ', offset)
     modelBook.pagination(limit, offset)
       .then(result => res.json(result))
-      .catch(err => console.log(err))
+      .catch(err => res.json({ msg: 'something wrong', error: err.code }))
   }
 }
