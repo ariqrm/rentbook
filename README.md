@@ -53,7 +53,8 @@ SECRET_KEY = 'your secretkey'
 * `/genre`
 * `/transaction/borrow/`
 * `/transaction/return/`
-* `/user`
+* `/user/login`
+* `/user/register`
 
 
 **3. PATCH**
