@@ -9,13 +9,13 @@ module.exports = {
       req.userData = decode
       next()
     } catch (error) {
-      return res.status(401).json({
+      res.status(401).json({
         massage: 'Login first'
       })
     }
   },
   checkid: (req, res) => {
-    const data = req.userData.dataUser.Email
-    return res.json({ Email: data })
+    const data = req.userData.dataUser
+    res.json({ Email: data })
   }
 }

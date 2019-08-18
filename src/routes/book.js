@@ -6,7 +6,7 @@ const auth = require('../middleware/auth')
 
 Route
 // check auth
-  .get('/*', auth.auth)
+  // .get('/*', auth.auth)
   .post('/*', auth.auth)
   .patch('/*', auth.auth)
   .delete('/*', auth.auth)
@@ -22,7 +22,6 @@ Route
 // pagination book
   .get('/page/limit', BookConttroller.pagiNation)
 // filter by title book
-// .get('/s/:title', BookConttroller.searchBook)
   .get('/filter/s', BookConttroller.filterBook)
   .post('/filter', BookConttroller.filterBook)
 // update data book

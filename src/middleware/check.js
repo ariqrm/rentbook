@@ -13,7 +13,7 @@ module.exports = {
     if (result.error === null) {
       next()
     } else {
-      return res.json({ error: 'wrong input' })
+      res.json({ error: 'wrong input' })
     }
   }
 }

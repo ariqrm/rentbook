@@ -6,7 +6,7 @@ const auth = require('../middleware/auth')
 
 Route
 // check auth
-  .get('/*', auth.auth)
+  // .get('/*', auth.auth)
   .post('/*', auth.auth)
   .patch('/*', auth.auth)
   .delete('/*', auth.auth)

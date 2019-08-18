@@ -36,7 +36,7 @@ module.exports = {
   },
   getData: () => {
     return new Promise((resolve, reject) => {
-      conn.query('SELECT * FROM `Genres` ', (err, result) => {
+      conn.query('SELECT * FROM `Genres` ORDER BY id ASC', (err, result) => {
         if (!err) {
           resolve(result)
         } else {

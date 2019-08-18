@@ -49,7 +49,6 @@ module.exports = {
         query += sort ? ` ORDER BY B.${sort}` : ``
       }
       conn.query(`${sql + query} LIMIT ${limit} OFFSET ${offset}`, (err, result) => {
-        console.log('is', query)
         if (!err) {
           resolve(result)
         } else {

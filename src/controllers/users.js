@@ -5,8 +5,8 @@ const jwt = require('jsonwebtoken')
 module.exports = {
   getData: (req, res) => {
     modelUser.getData()
-      .then(result => res.json(result))
-      .catch(err => res.json({ error: err.code }))
+      .then(result => res.json({ success: true, message: 'succes borrow', data: result, error: '' }))
+      .catch(err => res.json({ success: false, message: 'fail borrow', data: '', error: err }))
   },
   register: (req, res) => {
     const secret = helper.generateSecret(18)
@@ -19,8 +19,16 @@ module.exports = {
       secret_key: passwordHash.secret
     }
     modelUser.registerUser(data)
-      .then(result => res.json(result))
-      .catch(err => res.json({ msg: `Data have existed`, error: err.code }))
+      .then(result => {
+        delete data.secret_key
+        if (result.affectedRows === 1) {
+          delete data.password
+          res.json({ success: true, message: 'succes register', data: data, error: '' })
+        } else {
+          res.json({ success: false, message: 'fail register', data: data, error: 'Data already existed' })
+        }
+      })
+      .catch(err => res.json({ success: false, message: 'Data already existed', data: data, error: err }))
   },
   signin: (req, res) => {
     const email = req.body.email
@@ -34,15 +42,11 @@ module.exports = {
           delete dataUser.secret_key
           delete dataUser.Password
           const token = jwt.sign({ dataUser }, process.env.SECRET_KEY)
-          return res.json({ token: `Bearer ${token}` })
+          res.json({ success: true, message: 'succes register', data: { token: `Bearer ${token}` }, error: '' })
         } else {
-          return res.json({ error: 'data not match' })
+          res.json({ success: false, message: 'email or password false', data: [email, password], error: 'data not match' })
         }
       })
-      .catch((err) => res.json({ msg: `data not match`, error: err.code }))
-  },
-  testJwt: (req, res) => {
-    const token = req.header
-    return res.json({ b: token })
+      .catch((err) => res.json({ success: false, message: 'email or password false', data: [email, password], error: err }))
   }
 }
