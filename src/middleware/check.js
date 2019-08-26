@@ -4,8 +4,8 @@ module.exports = {
     // console.log(req.body)
     const schema = Joi.object().keys({
       email: Joi.string().email({ minDomainSegments: 2 }).required(),
-      first_name: Joi.string().alphanum().min(3).max(15).required(),
-      last_name: Joi.string().alphanum().min(3).max(15).required(),
+      username: Joi.string().alphanum().min(3).max(15).required(),
+      full_name: Joi.string().alphanum().min(3).max(15).required(),
       password: Joi.string().min(8).required()
     })
     const data = req.body

@@ -14,16 +14,18 @@ module.exports = {
     const data = {
       email: req.body.email,
       password: passwordHash.password,
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      secret_key: passwordHash.secret
+      username: req.body.username,
+      full_name: req.body.full_name,
+      secret_key: passwordHash.secret,
+      access: req.body.access || 'guest'
     }
     modelUser.registerUser(data)
       .then(result => {
         delete data.secret_key
         if (result.affectedRows === 1) {
           delete data.password
-          res.json({ success: true, message: 'succes register', data: data, error: '' })
+          delete data.access
+          res.json({ success: true, message: 'succes registered', data: data, error: '' })
         } else {
           res.json({ success: false, message: 'fail register', data: data, error: 'Data already existed' })
         }
@@ -42,7 +44,7 @@ module.exports = {
           delete dataUser.secret_key
           delete dataUser.Password
           const token = jwt.sign({ dataUser }, process.env.SECRET_KEY)
-          res.json({ success: true, message: 'succes register', data: { token: `Bearer ${token}` }, error: '' })
+          res.json({ success: true, message: 'succes sign in', data: { data: dataUser, email: email, token: `Bearer ${token}` }, error: '' })
         } else {
           res.json({ success: false, message: 'email or password false', data: [email, password], error: 'data not match' })
         }

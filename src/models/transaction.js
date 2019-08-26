@@ -37,9 +37,9 @@ module.exports = {
       })
     })
   },
-  getData: () => {
+  getData: (id) => {
     return new Promise((resolve, reject) => {
-      conn.query('SELECT * FROM Transaction ', (err, result) => {
+      conn.query(`SELECT * FROM Transaction WHERE id_users = ${id}`, (err, result) => {
         if (!err) {
           resolve(result)
         } else {

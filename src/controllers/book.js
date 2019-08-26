@@ -1,16 +1,22 @@
 const modelBook = require('../models/book')
 
 module.exports = {
+  getDataYear: (req, res) => {
+    modelBook.getYear()
+    .then(result => res.json({ succes: true, message: 'succes get data', data: result, error: '' }))
+    .catch(err => res.json({ succes: false, message: 'something wrong', data: [''], error: err }))
+  },
   getData: (req, res) => {
+    const coloum = req.query.coloum || 'B.Title'
     const search = req.query.search || null
-    const cols = req.query.sort || 'title '
-    const by = req.query.by || 'ASC'
+    const cols = req.query.sort || 'id'
+    const by = req.query.by || 'DESC'
     const sort = cols + ' ' + by
     const available = req.query.available || null
-    const limit = req.query.limit || 10
+    const limit = req.query.limit || 12
     const page = req.query.page || 1
     const offset = (page - 1) * limit
-    modelBook.getData(search, sort, available, limit, offset)
+    modelBook.getData(coloum, search, sort, available, limit, offset)
       .then(result => res.json({ succes: true, message: 'succes get data', data: result, error: '' }))
       .catch(err => res.json({ succes: false, message: 'something wrong', data: [''], error: err }))
   },
@@ -52,14 +58,19 @@ module.exports = {
       .catch(err => res.json({ succes: false, message: 'book not found', data: id, error: err }))
   },
   updateData: (req, res) => {
+    let status = 2
+    if (req.body.status === 'available') {
+      status = 2
+    }else{
+      status = 1
+    }
     const data = {
       Title: req.body.title,
       Description: req.body.description,
       Image: req.body.image,
-      DateReleased: req.body.dateReleased,
+      DateReleased: req.body.date_released,
       id_genre: req.body.genre,
-      id_status: req.body.status,
-      update_at: new Date()
+      id_status: status
     }
     const id = {
       id: req.params.id

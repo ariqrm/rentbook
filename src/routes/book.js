@@ -7,11 +7,12 @@ const auth = require('../middleware/auth')
 Route
 // check auth
   // .get('/*', auth.auth)
-  .post('/*', auth.auth)
-  .patch('/*', auth.auth)
-  .delete('/*', auth.auth)
+  .post('/*', auth.auth, auth.authAdmin)
+  .patch('/*', auth.auth, auth.authAdmin)
+  .delete('/*', auth.auth, auth.authAdmin)
 // Get All data book
   .get('/', BookConttroller.getData)
+  .get('/year', BookConttroller.getDataYear)
 // insert Data book
   .post('/', BookConttroller.insertData)
 // sort by col table book

@@ -32,7 +32,7 @@ app.use((req, res, next) => {
   console.log('Someone Logged with method', req.method, 'at', Date.now(), 'in', req.url)
   next()
 })
-// app.use(Cors())
+app.use(Cors())
 app.listen(port, () => {
   console.log(`Server is running on Port ${port}`)
 })
@@ -47,7 +47,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 //     text: "You should not see this via a CORS request."
 //   });
 // });
-app.use('/book', BookRoute)
+app.use('/books', BookRoute)
 app.use('/genre', Cors(), GenreRoute)
 app.use('/transaction', TransactionRoute)
 app.use('/user', UserRoute)

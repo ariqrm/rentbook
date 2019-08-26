@@ -1,5 +1,5 @@
 const conn = require('../configs/db')
-const sql = `SELECT B.Title AS title, B.Description AS description, \
+const sql = `SELECT B.id, B.Title AS title, B.Description AS description, \
             B.Image AS image, B.DateReleased AS date_released, \
             G.NameOfGenre AS genre, S.Status AS status \
             FROM Book AS B JOIN Genres AS G ON B.id_genre=G.id \
@@ -38,14 +38,26 @@ module.exports = {
       })
     })
   },
-  getData: (search, sort, available, limit, offset) => {
+  getYear: ()=>{
+    return new Promise((resolve, reject)=>{
+      conn.query(`SELECT year(DateReleased) as year FROM Book GROUP BY year`, 
+      (err, result)=>{
+        if(err){
+          reject(err)
+        } else {
+          resolve(result)
+        }
+      })
+    })
+  },
+  getData: (coloum, search, sort, available, limit, offset) => {
     return new Promise((resolve, reject) => {
       let query = ''
       if (search != null || sort != null || available != null) {
         query += search || available ? ` WHERE` : ``
         query += available ? ` S.Status = '${available}'` : ``
         query += search && available ? ` AND` : ``
-        query += search ? ` B.Title LIKE "%${search}%"` : ``
+        query += search ? ` ${coloum} LIKE "%${search}%"` : ``
         query += sort ? ` ORDER BY B.${sort}` : ``
       }
       conn.query(`${sql + query} LIMIT ${limit} OFFSET ${offset}`, (err, result) => {
