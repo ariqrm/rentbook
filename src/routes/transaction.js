@@ -7,7 +7,7 @@ const auth = require('../middleware/auth')
 Route
 // check auth
   // .get('/*', auth.auth)
-  // .post('/*', auth.auth)
+  // .post('/*', auth.auth, auth.authAdmin)
 // all transaction data rent book
   .get('/', TransactionConttroller.getTransactionData)
   .get('/:id', TransactionConttroller.getTransactionData)
