@@ -37,6 +37,6 @@ module.exports = {
   },
   checkid: (req, res) => {
     const data = req.userData.dataUser
-    res.json({ Email: data })
+    res.json({ data: data })
   }
 }

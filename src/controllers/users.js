@@ -27,7 +27,12 @@ module.exports = {
           delete data.access
           res.json({ success: true, message: 'succes registered', data: data, error: '' })
         } else {
-          res.json({ success: false, message: 'fail register', data: data, error: 'Data already existed' })
+          res.json({
+            success: false,
+            message: 'Data already existed',
+            data: data,
+            error: 'fail register'
+          })
         }
       })
       .catch(err => res.json({ success: false, message: 'Data already existed', data: data, error: err }))

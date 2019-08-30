@@ -5,8 +5,50 @@ module.exports = {
   getTransactionData: (req, res) => {
     const id = req.params.id || 4
     modelTransaction.getData(id)
-      .then(result => res.json({ succes: true, message: 'succes get data', data: result, error: '' }))
-      .catch(err => res.json({ succes: false, message: 'cant get data in database', data: '', error: err.code }))
+      .then(result => res.json({
+        success: true,
+        message: 'succes get data',
+        data: result,
+        error: ''
+      }))
+      .catch(err => res.json({
+        success: false,
+        message: 'cant get data in database',
+        data: '',
+        error: err.code
+      }))
+  },
+  getBorrowedData: (req, res) => {
+    const id = req.params.id || 0
+    modelTransaction.getDataBorrowed(id)
+      .then(result => res.json({
+        success: true,
+        message: 'succes get data',
+        data: result,
+        error: ''
+      }))
+      .catch(err => res.json({
+        success: false,
+        message: 'Data not found',
+        data: '',
+        error: err.code
+      }))
+  },
+  getReturnedData: (req, res) => {
+    const id = req.params.id || 0
+    modelTransaction.getDataReturn(id)
+      .then(result => res.json({
+        success: true,
+        message: 'succes get data',
+        data: result,
+        error: ''
+      }))
+      .catch(err => res.json({
+        success: false,
+        message: 'Data not found',
+        data: '',
+        error: err.code
+      }))
   },
   borrow: (req, res) => {
     const data = {
@@ -23,10 +65,10 @@ module.exports = {
     modelTransaction.borrowBook(data, id)
       .then(() => modelBook.updateBook(dataBook, id)
         .then(() =>
-          res.json({ success: true, message: 'succes borrow', data: id, error: '' }))
-        .catch(error => res.json({ succes: false, message: 'cant get data in database', data: id, error: error }))
+          res.json({ success: true, message: 'success borrow', data: id, error: '' }))
+        .catch(error => res.json({ success: false, message: 'cant get data in database', data: id, error: error }))
       )
-      .catch(error => res.json({ succes: false, message: 'cant get data in database', data: id, error: error }))
+      .catch(error => res.json({ success: false, message: 'cant get data in database', data: id, error: error }))
   },
   return: (req, res) => {
     const data = {
@@ -43,9 +85,9 @@ module.exports = {
     modelTransaction.returnBook(data, id)
       .then(() => modelBook.updateBook(dataBook, id)
         .then(() =>
-          res.json({ success: true, message: 'succes borrow', data: id, error: '' }))
-        .catch(error => res.json({ succes: false, message: 'cant get data in database', data: id, error: error }))
+          res.json({ success: true, message: 'success return', data: id, error: '' }))
+        .catch(error => res.json({ success: false, message: 'cant get data in database', data: id, error: error }))
       )
-      .catch(error => res.json({ succes: false, message: 'cant get data in database', data: id, error: error }))
+      .catch(error => res.json({ success: false, message: 'cant get data in database', data: id, error: error }))
   }
 }

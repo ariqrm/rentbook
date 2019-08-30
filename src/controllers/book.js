@@ -3,8 +3,8 @@ const modelBook = require('../models/book')
 module.exports = {
   getDataYear: (req, res) => {
     modelBook.getYear()
-    .then(result => res.json({ succes: true, message: 'succes get data', data: result, error: '' }))
-    .catch(err => res.json({ succes: false, message: 'something wrong', data: [''], error: err }))
+    .then(result => res.json({ success: true, message: 'succes get data', data: result, error: '' }))
+    .catch(err => res.json({ success: false, message: 'something wrong', data: [''], error: err }))
   },
   getData: (req, res) => {
     const coloum = req.query.coloum || 'B.Title'
@@ -17,45 +17,45 @@ module.exports = {
     const page = req.query.page || 1
     const offset = (page - 1) * limit
     modelBook.getData(coloum, search, sort, available, limit, offset)
-      .then(result => res.json({ succes: true, message: 'succes get data', data: result, error: '' }))
-      .catch(err => res.json({ succes: false, message: 'something wrong', data: [''], error: err }))
+      .then(result => res.json({ success: true, message: 'succes get data', data: result, error: '' }))
+      .catch(err => res.json({ success: false, message: 'something wrong', data: [''], error: err }))
   },
   getDetailData: (req, res) => {
     const id = req.params.id
     modelBook.getDetailData(id)
       .then(result => {
         if (result[0].id === null) {
-          res.json({ succes: false, message: 'book not found', data: [''], error: '' })
+          res.json({ success: false, message: 'book not found', data: [''], error: '' })
         } else {
-          res.json({ succes: true, message: 'get a data', data: result, error: '' })
+          res.json({ success: true, message: 'get a data', data: result, error: '' })
         }
       })
-      .catch(err => res.json({ succes: false, message: 'book not found', data: [''], error: err }))
+      .catch(err => res.json({ success: false, message: 'book not found', data: [''], error: err }))
   },
   filterBook: (req, res) => {
     const title = req.body.title || 'a'
     const cols = req.body.colom || 'Title'
     modelBook.filterDataBook(title, cols)
-      .then(result => res.json({ succes: true, message: 'filtered data', data: result, error: '' }))
-      .catch(err => res.json({ succes: false, message: 'something wrong', data: [''], error: err }))
+      .then(result => res.json({ success: true, message: 'filtered data', data: result, error: '' }))
+      .catch(err => res.json({ success: false, message: 'something wrong', data: [''], error: err }))
   },
   sortBook: (req, res) => {
     const col = req.params.col || req.body.col
     modelBook.sortDataBook(col)
-      .then(result => res.json({ succes: true, message: 'sorted data', data: result, error: '' }))
-      .catch(err => res.json({ succes: false, message: 'something wrong', data: [''], error: err }))
+      .then(result => res.json({ success: true, message: 'sorted data', data: result, error: '' }))
+      .catch(err => res.json({ success: false, message: 'something wrong', data: [''], error: err }))
   },
   deleteData: (req, res) => {
     const id = req.params.id
     modelBook.deleteBook(id)
       .then(result => {
         if (result.affectedRows === 1) {
-          res.json({ succes: true, message: 'book deleted', data: id, error: '' })
+          res.json({ success: true, message: 'book deleted', data: id, error: '' })
         } else {
-          res.json({ succes: false, message: 'book not found', data: id, error: 'not found in database' })
+          res.json({ success: false, message: 'book not found', data: id, error: 'not found in database' })
         }
       })
-      .catch(err => res.json({ succes: false, message: 'book not found', data: id, error: err }))
+      .catch(err => res.json({ success: false, message: 'book not found', data: id, error: err }))
   },
   updateData: (req, res) => {
     let status = 2
@@ -78,31 +78,31 @@ module.exports = {
     modelBook.updateBook(data, id)
       .then(result => {
         if (result.affectedRows === 1) {
-          res.json({ succes: true, message: 'book data updated', data: data, error: '' })
+          res.json({ success: true, message: 'book data updated', data: data, error: '' })
         } else {
-          res.json({ succes: false, message: 'something wrong', data: [''], error: '' })
+          res.json({ success: false, message: 'something wrong', data: [''], error: '' })
         }
       })
-      .catch(err => res.json({ succes: false, message: 'something wrong', data: [''], error: err }))
+      .catch(err => res.json({ success: false, message: 'something wrong', data: [''], error: err }))
   },
   insertData: (req, res) => {
     const data = req.body
     modelBook.insertBook(data)
       .then(result => {
         if (result.affectedRows === 1) {
-          res.json({ succes: true, message: 'book added', data: data, error: '' })
+          res.json({ success: true, message: 'book added', data: data, error: '' })
         } else {
-          res.json({ succes: false, message: 'something wrong', data: data, error: 'book can not added' })
+          res.json({ success: false, message: 'something wrong', data: data, error: 'book can not added' })
         }
       })
-      .catch(err => res.json({ succes: false, message: 'something wrong', data: data, error: err }))
+      .catch(err => res.json({ success: false, message: 'something wrong', data: data, error: err }))
   },
   pagiNation: (req, res) => {
     const limit = req.query.limit || 5
     const page = req.query.offset || 1
     const offset = (page - 1) * limit
     modelBook.pagination(limit, offset)
-      .then(result => res.json({ succes: true, message: 'get data', data: result, error: '' }))
-      .catch(err => res.json({ succes: false, message: 'something wrong', data: [''], error: err }))
+      .then(result => res.json({ success: true, message: 'get data', data: result, error: '' }))
+      .catch(err => res.json({ success: false, message: 'something wrong', data: [''], error: err }))
   }
 }

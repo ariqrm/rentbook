@@ -11,6 +11,8 @@ Route
 // all transaction data rent book
   .get('/', TransactionConttroller.getTransactionData)
   .get('/:id', TransactionConttroller.getTransactionData)
+  .get('/borrowed/:id', TransactionConttroller.getBorrowedData)
+  .get('/returned/:id', TransactionConttroller.getReturnedData)
 // add new borrow book
   .post('/borrow/', TransactionConttroller.borrow)
 // add return book
