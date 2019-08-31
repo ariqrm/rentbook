@@ -11,7 +11,7 @@ const GenreRoute = require('./src/routes/genre')
 const TransactionRoute = require('./src/routes/transaction')
 const UserRoute = require('./src/routes/users')
 
-const PORT = process.env.PORT || 3010
+const PORT = 3010
 // app.use((req, res, next) => {
 //   res.header('Access-Control-Allow-Origin', '192.168.6.120')
 //   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
