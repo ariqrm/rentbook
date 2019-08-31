@@ -48,7 +48,7 @@ module.exports = {
         if (usePassword.password === dataUser.Password) {
           delete dataUser.secret_key
           delete dataUser.Password
-          const token = jwt.sign({ dataUser }, process.env.SECRET_KEY)
+          const token = jwt.sign({ dataUser },'secretkey')
           res.json({ success: true, message: 'succes sign in', data: { data: dataUser, email: email, token: `Bearer ${token}` }, error: '' })
         } else {
           res.json({ success: false, message: 'email or password false', data: [email, password], error: 'data not match' })
