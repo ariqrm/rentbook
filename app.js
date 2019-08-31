@@ -11,7 +11,7 @@ const GenreRoute = require('./src/routes/genre')
 const TransactionRoute = require('./src/routes/transaction')
 const UserRoute = require('./src/routes/users')
 
-const port = process.env.SERVER_PORT || 3010
+const PORT = process.env.PORT || 3010
 // app.use((req, res, next) => {
 //   res.header('Access-Control-Allow-Origin', '192.168.6.120')
 //   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
@@ -33,8 +33,8 @@ app.use((req, res, next) => {
   next()
 })
 app.use(Cors())
-app.listen(port, () => {
-  console.log(`Server is running on Port ${port}`)
+app.listen(PORT, () => {
+  console.log(`Server is running on Port ${PORT}`)
 })
 
 app.use(logger('dev'))
