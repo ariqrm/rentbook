@@ -13,6 +13,7 @@ Route
   .get('/:id', TransactionConttroller.getTransactionData)
   .get('/borrowed/:id', TransactionConttroller.getBorrowedData)
   .get('/returned/:id', TransactionConttroller.getReturnedData)
+  .get('/check/borrowed/:id', TransactionConttroller.checkBorrowed)
 // add new borrow book
   .post('/borrow/', TransactionConttroller.borrow)
 // add return book

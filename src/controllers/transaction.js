@@ -89,5 +89,11 @@ module.exports = {
         .catch(error => res.json({ success: false, message: 'cant get data in database', data: id, error: error }))
       )
       .catch(error => res.json({ success: false, message: 'cant get data in database', data: id, error: error }))
+  },
+  checkBorrowed: (req, res) => {
+    const idbook = req.params.id
+    modelTransaction.checkBorrowed(idbook)
+      .then(result => res.json({ success: true, message: 'check success', data: result, error: '' }))
+      .catch(error => res.json({ success: false, message: 'check fail', data: error, error: error }))
   }
 }

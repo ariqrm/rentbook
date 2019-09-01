@@ -71,5 +71,17 @@ module.exports = {
         }
       })
     })
+  },
+  checkBorrowed: (id_book) => {
+    return new Promise((resolve, reject) => {
+      conn.query(`SELECT T.Date, U.Username FROM Transaction AS T JOIN \
+      Users AS U ON T.id_users=U.id WHERE T.id_book = ${id_book} AND T.id_status = 1 ORDER BY T.Date DESC LIMIT 1`, (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(err)
+        }
+      })
+    })
   }
 }
