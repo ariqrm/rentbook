@@ -40,7 +40,7 @@ module.exports = {
   },
   getYear: ()=>{
     return new Promise((resolve, reject)=>{
-      conn.query(`SELECT year(DateReleased) as year FROM Book GROUP BY year`, 
+      conn.query(`SELECT year(DateReleased) as year FROM Book GROUP BY year ORDER BY year  `, 
       (err, result)=>{
         if(err){
           reject(err)
