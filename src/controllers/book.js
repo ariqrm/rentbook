@@ -72,9 +72,7 @@ module.exports = {
       id_genre: req.body.genre,
       id_status: status
     }
-    const id = {
-      id: req.params.id
-    }
+    const id = req.params.id
     modelBook.updateBook(data, id)
       .then(result => {
         if (result.affectedRows === 1) {

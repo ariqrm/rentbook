@@ -1,7 +1,7 @@
 const conn = require('../configs/db')
 const sql = `SELECT B.id, B.Title AS title, B.Description AS description, \
             B.Image AS image, B.DateReleased AS date_released, \
-            G.NameOfGenre AS genre, S.Status AS status \
+            G.Genre AS genre, S.Status AS status \
             FROM Book AS B JOIN Genres AS G ON B.id_genre=G.id \
             JOIN Status AS S ON B.id_status=S.id`
 module.exports = {
@@ -18,7 +18,7 @@ module.exports = {
   },
   updateBook: (data, id) => {
     return new Promise((resolve, reject) => {
-      conn.query('UPDATE Book SET ? WHERE ?', [data, id], (err, result) => {
+      conn.query('UPDATE Book SET ? WHERE id = ?', [data, id], (err, result) => {
         if (!err) {
           resolve(result)
         } else {

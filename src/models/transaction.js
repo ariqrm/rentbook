@@ -5,7 +5,7 @@ WHERE T.id_users ="
 module.exports = {
   borrowBook: (data, id) => {
     return new Promise((resolve, reject) => {
-      conn.query('SELECT id_status FROM `Book` WHERE ?', [id], (err, result) => {
+      conn.query('SELECT id_status FROM `Book` WHERE id =  ?', [id], (err, result) => {
         const error = { error: 'book not available' }
         if (!err && result[0].id_status === 2) {
           conn.query('INSERT Transaction SET ?', data, (err, result) => {
@@ -21,12 +21,32 @@ module.exports = {
       })
     })
   },
+  borrowBookAccept: (data, id) => {
+    return new Promise((resolve, reject) => {
+      conn.query('SELECT id_status FROM `Book` WHERE id =  ?', [id], (err, result) => {
+        const error = {
+          error: 'book not available'
+        }
+        if (!err && result[0].id_status === 3) {
+          conn.query('UPDATE Transaction SET ? WHERE id_book = ? AND id_status = 3', [data,id], (err, result) => {
+            if (!err) {
+              resolve(result)
+            } else {
+              reject(error)
+            }
+          })
+        } else {
+          reject(error)
+        }
+      })
+    })
+  },
   returnBook: (data, id) => {
     return new Promise((resolve, reject) => {
-      conn.query('SELECT id_status FROM `Book` WHERE ?', [id], (err, result) => {
+      conn.query('SELECT id_status FROM `Book` WHERE id =  ?', [id], (err, result) => {
         const error = { error: 'book already exists' }
         if (!err && result[0].id_status === 1) {
-          conn.query('INSERT Transaction SET ?', data, (err, result) => {
+          conn.query('UPDATE Transaction SET ? WHERE id_book = ? AND id_status = 1 ', [data,id], (err, result) => {
             if (!err) {
               resolve(result)
             } else {

@@ -8,6 +8,7 @@ const Cors = require('cors')
 
 const BookRoute = require('./src/routes/book')
 const GenreRoute = require('./src/routes/genre')
+const RatingRoute = require('./src/routes/rating')
 const TransactionRoute = require('./src/routes/transaction')
 const UserRoute = require('./src/routes/users')
 
@@ -49,6 +50,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // });
 app.use('/books', BookRoute)
 app.use('/genre', Cors(), GenreRoute)
+app.use('/rating', RatingRoute)
 app.use('/transaction', TransactionRoute)
 app.use('/user', UserRoute)
 app.use('/', (req, res) => res.status(404).json({ message: '404 not found' }))

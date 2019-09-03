@@ -16,7 +16,9 @@ Route
   .get('/check/borrowed/:id', TransactionConttroller.checkBorrowed)
 // add new borrow book
   .post('/borrow/', TransactionConttroller.borrow)
+// add accept book
+  .patch('/accept/', TransactionConttroller.accept)
 // add return book
-  .post('/return/', TransactionConttroller.return)
+  .patch('/return/', TransactionConttroller.return)
 
 module.exports = Route

@@ -34,7 +34,7 @@ module.exports = {
   },
   updateData: (req, res) => {
     const data = {
-      NameOfGenre: req.body.NameOfGenre
+      Genre: req.body.Genre
     }
     const id = {
       id: req.params.id
@@ -51,7 +51,7 @@ module.exports = {
   },
   insertData: (req, res) => {
     const data = {
-      NameOfGenre: req.body.NameOfGenre
+      Genre: req.body.Genre
     }
     modelGenre.insertGenre(data)
       .then(result => {
