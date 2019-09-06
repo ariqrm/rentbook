@@ -54,7 +54,7 @@ module.exports = {
     const data = {
       id_book: req.body.id_book,
       id_status: 3,
-      id_users: req.body.id_users || 13
+      id_users: req.body.id_users
     }
     const dataBook = {
       id_status: 3
@@ -73,7 +73,6 @@ module.exports = {
       Accepted: new Date(),
       id_book: req.body.id_book,
       id_status: 1,
-      id_users: req.body.id_users || 13
     }
     const dataBook = {
       id_status: 1
@@ -92,7 +91,6 @@ module.exports = {
       Returned: new Date(),
       id_book: req.body.id_book,
       id_status: 2,
-      id_users: req.body.id_users || 13
     }
     const dataBook = {
       id_status: 2

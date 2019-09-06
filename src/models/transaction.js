@@ -1,5 +1,5 @@
 const conn = require('../configs/db')
-const sql = "SELECT T.id, T.Date, T.id_book, T.id_status, T.id_users, \
+const sql = "SELECT T.id, T.Date, T.id_book, T.Returned, T.id_status, T.id_users, \
 B.Title, B.Image, B.DateReleased FROM Transaction as T JOIN Book as B ON T.id_book=B.id \
 WHERE T.id_users ="
 module.exports = {
@@ -72,7 +72,7 @@ module.exports = {
   },
   getDataBorrowed: (id) => {
     return new Promise((resolve, reject) => {
-      conn.query(`${sql} ${id} AND T.id_status = 1 GROUP BY T.id LIMIT 10 OFFSET 0`, (err, result) => {
+      conn.query(`${sql} ${id} GROUP BY T.id LIMIT 10 OFFSET 0`, (err, result) => {
         if (!err) {
           resolve(result)
         } else {
@@ -83,7 +83,7 @@ module.exports = {
   },
   getDataReturn: (id) => {
     return new Promise((resolve, reject) => {
-      conn.query(`${sql} ${id} AND T.id_status = 2 GROUP BY T.id LIMIT 10 OFFSET 0`, (err, result) => {
+      conn.query(`${sql} ${id} GROUP BY T.id LIMIT 10 OFFSET 0`, (err, result) => {
         if (!err) {
           resolve(result)
         } else {
@@ -94,7 +94,7 @@ module.exports = {
   },
   checkBorrowed: (id_book) => {
     return new Promise((resolve, reject) => {
-      conn.query(`SELECT T.Date, U.Username FROM Transaction AS T JOIN \
+      conn.query(`SELECT T.Date, U.Username, T.id_users AS id FROM Transaction AS T JOIN \
       Users AS U ON T.id_users=U.id WHERE T.id_book = ${id_book} AND T.id_status = 1 ORDER BY T.Date DESC LIMIT 1`, (err, result) => {
         if (!err) {
           resolve(result)

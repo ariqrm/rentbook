@@ -3,6 +3,7 @@ const Route = express.Router()
 
 const BookConttroller = require('../controllers/book')
 const auth = require('../middleware/auth')
+const multer = require('../middleware/multer')
 
 Route
 // check auth
@@ -14,7 +15,7 @@ Route
   .get('/', BookConttroller.getData)
   .get('/year', BookConttroller.getDataYear)
 // insert Data book
-  .post('/', BookConttroller.insertData)
+  .post('/', multer.multerUploads, BookConttroller.insertData)
 // sort by col table book
   .get('/sort/:col', BookConttroller.sortBook)
   .post('/sort/', BookConttroller.sortBook)

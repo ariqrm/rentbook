@@ -5,12 +5,14 @@ const app = express()
 const logger = require('morgan')
 const bodyParser = require('body-parser')
 const Cors = require('cors')
+const path = require('path')
 
 const BookRoute = require('./src/routes/book')
 const GenreRoute = require('./src/routes/genre')
 const RatingRoute = require('./src/routes/rating')
 const TransactionRoute = require('./src/routes/transaction')
 const UserRoute = require('./src/routes/users')
+const cloudinaryConfig = require('./src/configs/cloudinaryConfig')
 
 const PORT = process.env.PORT || 3010
 // app.use((req, res, next) => {
@@ -29,6 +31,9 @@ const PORT = process.env.PORT || 3010
 
 // app.use(cors())
 
+app.use(express.static(path.resolve(__dirname, 'src/public')))
+app.use('*', cloudinaryConfig.cloudinaryConfig)
+
 app.use((req, res, next) => {
   console.log('Someone Logged with method', req.method, 'at', Date.now(), 'in', req.url)
   next()
@@ -42,12 +47,6 @@ app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-// app.get("/no-cors", (req, res) => {
-//   console.info("GET /no-cors");
-//   res.json({
-//     text: "You should not see this via a CORS request."
-//   });
-// });
 app.use('/books', BookRoute)
 app.use('/genre', Cors(), GenreRoute)
 app.use('/rating', RatingRoute)

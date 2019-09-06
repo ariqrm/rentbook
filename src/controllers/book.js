@@ -1,4 +1,6 @@
 const modelBook = require('../models/book')
+const multer = require('../middleware/multer')
+const cloudinaryConfig = require('../configs/cloudinaryConfig')
 
 module.exports = {
   getDataYear: (req, res) => {
@@ -84,16 +86,30 @@ module.exports = {
       .catch(err => res.json({ success: false, message: 'something wrong', data: [''], error: err }))
   },
   insertData: (req, res) => {
-    const data = req.body
-    modelBook.insertBook(data)
-      .then(result => {
-        if (result.affectedRows === 1) {
-          res.json({ success: true, message: 'book added', data: data, error: '' })
-        } else {
-          res.json({ success: false, message: 'something wrong', data: data, error: 'book can not added' })
-        }
-      })
-      .catch(err => res.json({ success: false, message: 'something wrong', data: data, error: err }))
+    const imageData = { image: req.file }
+    if (imageData.image) {
+      const file = multer.dataUri(req).content
+      return cloudinaryConfig.uploader.upload(file)
+        .then(result => {
+          const data = {
+            Title: req.body.Title,
+            Description: req.body.Description,
+            Image: result.secure_url,
+            DateReleased: req.body.DateReleased,
+            id_genre: req.body.id_genre,
+            id_status: 2,
+          }
+          modelBook.insertBook(data)
+            .then(result => {
+              if (result.affectedRows === 1) {
+                res.json({ success: true, message: 'book added', data: data, error: '' })
+              } else {
+                res.json({ success: false, message: 'something wrong', data: data, error: 'book can not added' })
+              }
+            })
+            .catch(err => res.json({ success: false, message: 'something wrong', data: data, error: err }))
+        })
+    }
   },
   pagiNation: (req, res) => {
     const limit = req.query.limit || 5
